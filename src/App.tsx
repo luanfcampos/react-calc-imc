@@ -1,10 +1,19 @@
 import styles from './App.module.css'
 import logo from './assets/powered.png'
-
+import { useState } from 'react'
 
 const App = () => {
 
+  const [heightField, setHeightField] = useState<number>(0)
+  const [weightField, setWeightField] = useState<number>(0)
 
+  const handleCalculateButton = () => {
+    if (heightField && weightField) {
+
+    } else {
+      alert("Prrencha todos os campos")
+    }
+  }
 
   return (
     <div className={styles.main}>
@@ -20,10 +29,20 @@ const App = () => {
           <input
             type="number"
             placeholder='Digite a sua altura (cm)'
-            value={}
-            onChange={}
+            value={heightField > 0 ? heightField : 0}
+            onChange={e => setHeightField(parseFloat(e.target.value))}
           />
+
+          <input
+            type="number"
+            placeholder='Digite o seu peso (kg)'
+            value={heightField > 0 ? heightField : 0}
+            onChange={e => setWeightField(parseFloat(e.target.value))}
+          />
+
+          <button onClick={handleCalculateButton}>Calcular</button>
         </div>
+
 
         <div className={styles.rightSide}>
           Direita
