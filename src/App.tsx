@@ -1,5 +1,6 @@
 import styles from './App.module.css'
 import logo from './assets/powered.png'
+import leftArrow from "./assets/leftarrow.png"
 import { useState } from 'react'
 import { GridItem } from './components/GridItem'
 
@@ -19,6 +20,12 @@ const App = () => {
     }
   }
 
+  const handleBackButton = () => {
+    setToShow(null)
+    setHeightField(0)
+    setWeightField(0)
+  }
+
   return (
     <div className={styles.main}>
       <header>
@@ -35,6 +42,7 @@ const App = () => {
             placeholder='Digite a sua altura. Ex: 1.6 (em metros)'
             value={heightField > 0 ? heightField : ''}
             onChange={e => setHeightField(parseFloat(e.target.value))}
+            disabled={toShow ? true : false}
           />
 
           <input
@@ -42,9 +50,13 @@ const App = () => {
             placeholder='Digite o seu peso. Ex: 80 (em kilogramas)'
             value={weightField > 0 ? weightField : ''}
             onChange={e => setWeightField(parseFloat(e.target.value))}
+            disabled={toShow ? true : false}
           />
 
-          <button onClick={handleCalculateButton}>Calcular</button>
+          <button onClick={handleCalculateButton}
+          disabled={toShow ? true : false}>
+            Calcular
+          </button>
         </div>
 
 
@@ -58,7 +70,9 @@ const App = () => {
           }
           {toShow &&
           <div className={styles.rightBig}>
-            <div className={styles.rightArrow}></div>
+            <div className={styles.rightArrow} onClick={handleBackButton}>
+              <img src={leftArrow} alt="" width={25}/>
+            </div>
             <GridItem item={toShow} />
           </div>
 
