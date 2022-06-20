@@ -3,16 +3,17 @@ import logo from './assets/powered.png'
 import { useState } from 'react'
 import { GridItem } from './components/GridItem'
 
-import { levels, calculateImc } from './helpers/imc'
+import { levels, calculateImc, level } from './helpers/imc'
 
 const App = () => {
 
   const [heightField, setHeightField] = useState<number>(0)
   const [weightField, setWeightField] = useState<number>(0)
+  const [toShow, setToShow] = useState<level | null>(null)
 
   const handleCalculateButton = () => {
     if (heightField && weightField) {
-
+      setToShow(calculateImc(heightField, weightField))
     } else {
       alert("Prrencha todos os campos")
     }
@@ -31,15 +32,15 @@ const App = () => {
           <p>IMC é a sigla para Índice de Massa Corpórea, parâmetro adotado pela Organização Mundial de Saúde para calcular o peso ideal de cada pessoa.</p>
           <input
             type="number"
-            placeholder='Digite a sua altura (cm)'
-            value={heightField > 0 ? heightField : 0}
+            placeholder='Digite a sua altura. Ex: 1.6 (em metros)'
+            value={heightField > 0 ? heightField : ''}
             onChange={e => setHeightField(parseFloat(e.target.value))}
           />
 
           <input
             type="number"
-            placeholder='Digite o seu peso (kg)'
-            value={heightField > 0 ? heightField : 0}
+            placeholder='Digite o seu peso. Ex: 80 (em kilogramas)'
+            value={weightField > 0 ? weightField : ''}
             onChange={e => setWeightField(parseFloat(e.target.value))}
           />
 
@@ -48,11 +49,20 @@ const App = () => {
 
 
         <div className={styles.rightSide}>
+          {!toShow &&
           <div className={styles.grid}>
             {levels.map((item, key)=>(
               <GridItem key={key} item={item}/>
             ))}
           </div>
+          }
+          {toShow &&
+          <div className={styles.rightBig}>
+            <div className={styles.rightArrow}></div>
+            <GridItem item={toShow} />
+          </div>
+
+          }
         </div>
       </section>
     </div>
